@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>To you</title>
+    <title>To You</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -157,27 +157,66 @@
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.7); z-index: 100;
+            background: rgba(0,0,0,0.6); z-index: 100;
             display: none; align-items: center; justify-content: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(6px);
         }
         .modal-card {
-            background: white; padding: 20px;
-            border-radius: 15px; max-width: 280px; text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: zoomIn 0.3s ease;
+            background: white; padding: 25px 20px;
+            border-radius: 20px; max-width: 280px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.25); animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .modal-card img { width: 100%; border-radius: 5px; margin-bottom: 10px; }
+        .modal-card img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
         .btn-keep {
             background: var(--primary-blue); color: white; border: none;
             padding: 10px 25px; border-radius: 30px; font-family: 'Kanit';
             font-size: 1rem; cursor: pointer; margin-top: 15px;
+            box-shadow: 0 4px 12px rgba(42, 82, 190, 0.3);
         }
         .admin-btn {
             background: var(--primary-blue); color: white; border: none;
-            padding: 6px 15px; border-radius: 15px; cursor: pointer; margin-top: 10px; font-family: 'Kanit';
+            padding: 8px 18px; border-radius: 18px; cursor: pointer; margin-top: 10px; font-family: 'Kanit';
         }
-        .admin-btn.danger { background: #d9534f; margin-left: 5px; }
-        @keyframes zoomIn { from { transform: scale(0.5); } to { transform: scale(1); } }
+        .admin-btn.danger { background: #ea5455; margin-left: 5px; }
+        @keyframes zoomIn { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* --- BEAUTIFUL ANSWER RESULT POPUP --- */
+        .result-card {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 30px 25px;
+            max-width: 290px;
+            width: 85%;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: zoomIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        .result-text {
+            font-size: 1.25rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .result-close-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-family: 'Kanit';
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(42, 82, 190, 0.3);
+            transition: transform 0.2s;
+        }
+        .result-close-btn:active { transform: scale(0.95); }
 
         /* --- FINAL MESSAGE --- */
         .final-msg-container {
@@ -210,7 +249,6 @@
 
     <!-- PAGE 1: CHASE ENVELOPE -->
     <div id="page1" class="page active">
-        <!-- ปุ่มรูปซองจดหมายสำหรับเปิดดูคำตอบ -->
         <div class="admin-env-btn" onclick="openAdminModal(event)" title="ดูคำตอบ">✉️</div>
         
         <div class="chase-area">
@@ -222,7 +260,7 @@
         <div class="music-hint">🎵 แตะหน้าจอเพื่อเริ่ม 🎵</div>
     </div>
 
-    <!-- PAGE 2: HEART TAP (1% PER TAP) -->
+    <!-- PAGE 2: HEART TAP -->
     <div id="page2" class="page">
         <div class="heart-container" onclick="fillHeart()">
             <svg viewBox="0 0 200 200" width="100%" height="100%">
@@ -272,10 +310,19 @@
         </div>
     </div>
 
+    <!-- POPUP แสดงคำตอบเมื่อกด YES/NO -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="result-card">
+            <div class="result-icon" id="resultIcon">💙</div>
+            <div class="result-text" id="resultText">เค้ารักเทอที่สุดเลยนะ</div>
+            <button class="result-close-btn" onclick="closeResultModal()">ตกลง</button>
+        </div>
+    </div>
+
     <!-- FINAL TEXT MESSAGE CONTAINER -->
     <div class="final-msg-container" id="finalMsgContainer">
         <div class="final-msg-box">
-            <h1></h1>
+            <h1>เป็นแฟนกับเค้านะ💝</h1>
             <p>เค้าดีใจมากๆนะที่ได้มาเจอเทอ<br>
             ตลอดเวลาที่เค้าคุยกับเทอ<br>
             เค้ามีความสุขมากๆ<br>
@@ -291,7 +338,6 @@
     <div id="page3" class="page">
         <div class="scratch-container-wrapper">
             <div class="scratch-box">
-                <!-- รูปไม่ซูม เห็นเต็มรูป -->
                 <img src="photo7.jpg" style="width:100%; height:100%; object-fit:contain;">
                 <canvas id="scratchCanvas" width="280" height="280" style="position:absolute; top:0; left:0; cursor:pointer;"></canvas>
             </div>
@@ -304,7 +350,6 @@
     </div>
 
     <script>
-        // ข้อมูลภาพและข้อความกำกับ
         const photos = [
             { src: "photo1.jpg", caption: "เดทแรกสำหรับเรา" },
             { src: "photo2.jpg", caption: "เดทแรกสำหรับเรา" },
@@ -323,7 +368,6 @@
             }
         }
         
-        // ไอคอนลอยเปลี่ยนเป็นหัวใจสีน้ำเงินทั้งหมด
         function createFloaters(containerId, num) {
             const container = document.getElementById(containerId);
             for(let i=0; i<num; i++) {
@@ -350,7 +394,6 @@
             }, 500);
         }
 
-        // หน้า 1 Logic
         const env = document.getElementById('envelope');
         function moveEnv() {
             const x = Math.random() * (window.innerWidth - 150);
@@ -365,7 +408,6 @@
         }
         env.onclick = () => goTo('page2');
 
-        // หน้า 2 Logic (เพิ่มทีละ 1%)
         let heartPercent = 0;
         function fillHeart() {
             heartPercent += 1; 
@@ -375,7 +417,6 @@
             if(heartPercent >= 100) setTimeout(() => goTo('page4'), 600);
         }
 
-        // หน้า 4 Logic (ค้นหารูป)
         let collected = 0;
         function foundPhoto(idx, el) {
             document.getElementById('previewImg').src = photos[idx-1].src;
@@ -400,7 +441,6 @@
             startScratch();
         }
 
-        // หน้า 3 Logic (ขูด 99% ขึ้นปุ่มทันที)
         let scratchFinished = false;
         function startScratch() {
             if(scratchFinished) return;
@@ -423,7 +463,6 @@
                 let cleared = 0;
                 for(let i=3; i<d.length; i+=4) if(d[i]===0) cleared++;
                 
-                // ขูดถึง 99% แล้วแสดงผลทันที ไม่ต้องรอ 3 วิ
                 if(cleared/(280*280) >= 0.99) { 
                     scratchFinished = true;
                     ctx.clearRect(0, 0, 280, 280);
@@ -448,18 +487,28 @@
             c.addEventListener('touchmove', move);
         }
 
-        // ระบบเลือกคำตอบ Yes / No
+        /* ระบบแสดงผล Custom Popup ป๊อปอัปสวยๆ สำหรับคำตอบ */
         function selectAnswer(ans) {
             localStorage.setItem('user_proposal_answer', ans);
+            const iconEl = document.getElementById('resultIcon');
+            const textEl = document.getElementById('resultText');
+
             if(ans === 'Yes') {
-                alert('เค้ารักเทอที่สุดเลยนะ💙');
+                iconEl.innerText = '💙';
+                textEl.innerText = 'เค้ารักเทอที่สุดเลยนะ💙';
             } else if(ans === 'No') {
-                alert('ลองพิจารณาคำตอบอีกทีไหม🥺');
+                iconEl.innerText = '🥺';
+                textEl.innerText = 'ลองพิจารณาคำตอบอีกทีไหม🥺';
             }
+
+            document.getElementById('resultModal').style.display = 'flex';
             checkAnswer();
         }
 
-        // การจัดการ Modal สำหรับซองจดหมายดูคำตอบ
+        function closeResultModal() {
+            document.getElementById('resultModal').style.display = 'none';
+        }
+
         function openAdminModal(e) {
             e.stopPropagation();
             checkAnswer();
