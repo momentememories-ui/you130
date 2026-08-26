@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>will you be my boyfriend?</title>
+    <title>will you be my girlfriend?</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -49,17 +49,15 @@
         }
         .active { display: flex; }
 
-        /* --- ADMIN PANEL ON PAGE 1 --- */
-        .admin-panel {
+        /* --- ADMIN ENVELOPE BUTTON ON PAGE 1 --- */
+        .admin-env-btn {
             position: absolute; top: 15px; left: 15px; z-index: 50;
-            background: rgba(255, 255, 255, 0.9); padding: 10px; border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.9); width: 45px; height: 45px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15); cursor: pointer; font-size: 1.5rem;
+            transition: transform 0.2s;
         }
-        .admin-btn {
-            background: var(--primary-blue); color: white; border: none;
-            padding: 4px 10px; border-radius: 5px; cursor: pointer; margin-top: 5px; font-family: 'Kanit';
-        }
-        .admin-btn.danger { background: #d9534f; }
+        .admin-env-btn:hover { transform: scale(1.1); }
 
         /* --- PAGE 1: ENVELOPE --- */
         .chase-area { position: relative; width: 100%; height: 100%; }
@@ -95,7 +93,7 @@
         .tap-msg { margin-top: 25px; color: var(--primary-blue); font-size: 1.2rem; animation: blink 1s infinite; text-align: center; font-weight: 400; }
         @keyframes blink { 50% { opacity: 0.5; } }
 
-        /* --- PAGE 3: SCRATCH (MOVED TO FINAL) --- */
+        /* --- PAGE 3: SCRATCH --- */
         .scratch-container-wrapper {
             display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
@@ -103,6 +101,7 @@
             position: relative; width: 280px; height: 280px;
             border: 6px solid white; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.15); overflow: hidden;
+            background-color: #ffffff;
         }
         .scratch-hint-text {
             margin-top: 15px; font-size: 1.1rem; color: var(--accent);
@@ -163,16 +162,21 @@
             backdrop-filter: blur(5px);
         }
         .modal-card {
-            background: white; padding: 15px 15px 30px 15px;
-            border-radius: 10px; max-width: 280px; text-align: center;
+            background: white; padding: 20px;
+            border-radius: 15px; max-width: 280px; text-align: center;
             box-shadow: 0 20px 50px rgba(0,0,0,0.3); animation: zoomIn 0.3s ease;
         }
-        .modal-card img { width: 100%; border-radius: 3px; margin-bottom: 10px; }
+        .modal-card img { width: 100%; border-radius: 5px; margin-bottom: 10px; }
         .btn-keep {
             background: var(--primary-blue); color: white; border: none;
             padding: 10px 25px; border-radius: 30px; font-family: 'Kanit';
             font-size: 1rem; cursor: pointer; margin-top: 15px;
         }
+        .admin-btn {
+            background: var(--primary-blue); color: white; border: none;
+            padding: 6px 15px; border-radius: 15px; cursor: pointer; margin-top: 10px; font-family: 'Kanit';
+        }
+        .admin-btn.danger { background: #d9534f; margin-left: 5px; }
         @keyframes zoomIn { from { transform: scale(0.5); } to { transform: scale(1); } }
 
         /* --- FINAL MESSAGE --- */
@@ -206,18 +210,16 @@
 
     <!-- PAGE 1: CHASE ENVELOPE -->
     <div id="page1" class="page active">
-        <div class="admin-panel">
-            <div><strong>สถานะคำตอบ:</strong> <span id="savedAnswerDisplay">ยังไม่มีข้อมูล</span></div>
-            <button class="admin-btn" onclick="checkAnswer()">ดูคำตอบล่าสุด</button>
-            <button class="admin-btn danger" onclick="clearAnswer()">ลบคำตอบ</button>
-        </div>
+        <!-- ปุ่มรูปซองจดหมายสำหรับเปิดดูคำตอบ -->
+        <div class="admin-env-btn" onclick="openAdminModal(event)" title="ดูคำตอบ">✉️</div>
+        
         <div class="chase-area">
             <h2 style="text-align:center; margin-top:100px; color:var(--accent);">จดหมายรักฉบับนี้<br>ต้องใช้ความพยายามนะ! 😝</h2>
             <div class="flying-envelope" id="envelope" onmouseover="moveEnv()" ontouchstart="moveEnvMobile(event)">
                 <div class="wing left"></div><div class="env-body">💌</div><div class="wing right"></div>
             </div>
         </div>
-        <div class="music-hint">🎵 แแตะหน้าจอเพื่อเริ่ม 🎵</div>
+        <div class="music-hint">🎵 แตะหน้าจอเพื่อเริ่ม 🎵</div>
     </div>
 
     <!-- PAGE 2: HEART TAP (1% PER TAP) -->
@@ -236,7 +238,7 @@
         <p class="tap-msg">ช่วยเติมหัวใจให้เต็มหน่อยนะ... 💙</p>
     </div>
 
-    <!-- PAGE 3: GALLERY GAME -->
+    <!-- PAGE 4: GALLERY GAME -->
     <div id="page4" class="page" style="padding:0;">
         <div class="inventory">
             <div class="inv-slot" id="slot1"></div><div class="inv-slot" id="slot2"></div><div class="inv-slot" id="slot3"></div><div class="inv-slot" id="slot4"></div><div class="inv-slot" id="slot5"></div>
@@ -260,10 +262,20 @@
         </div>
     </div>
 
+    <!-- ADMIN RESPONSE MODAL -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-card">
+            <h3>📩 คำตอบล่าสุด</h3>
+            <p id="savedAnswerDisplay" style="font-size: 1.2rem; font-weight: bold; margin: 15px 0; color: var(--primary-blue);">ยังไม่มีข้อมูล</p>
+            <button class="admin-btn danger" onclick="clearAnswer()">ลบคำตอบ</button>
+            <button class="admin-btn" onclick="closeAdminModal()">ปิด</button>
+        </div>
+    </div>
+
     <!-- FINAL TEXT MESSAGE CONTAINER -->
     <div class="final-msg-container" id="finalMsgContainer">
         <div class="final-msg-box">
-            <h1>เป็นแฟนกับเค้านะ💝</h1>
+            <h1></h1>
             <p>เค้าดีใจมากๆนะที่ได้มาเจอเทอ<br>
             ตลอดเวลาที่เค้าคุยกับเทอ<br>
             เค้ามีความสุขมากๆ<br>
@@ -279,7 +291,8 @@
     <div id="page3" class="page">
         <div class="scratch-container-wrapper">
             <div class="scratch-box">
-                <img src="photo7.jpg" style="width:100%; height:100%; object-fit:cover;">
+                <!-- รูปไม่ซูม เห็นเต็มรูป -->
+                <img src="photo7.jpg" style="width:100%; height:100%; object-fit:contain;">
                 <canvas id="scratchCanvas" width="280" height="280" style="position:absolute; top:0; left:0; cursor:pointer;"></canvas>
             </div>
             <div class="scratch-hint-text" id="scratchHint">ลองขูดดูสิ</div>
@@ -310,14 +323,13 @@
             }
         }
         
-        // อีโมจิธีมใหม่ โทนสีน้ำเงิน/ดวงดาว
+        // ไอคอนลอยเปลี่ยนเป็นหัวใจสีน้ำเงินทั้งหมด
         function createFloaters(containerId, num) {
             const container = document.getElementById(containerId);
-            const ems = ['⭐', '💙', '✨', '🌙', '💫', '🌌'];
             for(let i=0; i<num; i++) {
                 let el = document.createElement('div');
                 el.className = 'floater';
-                el.innerText = ems[Math.floor(Math.random() * ems.length)];
+                el.innerText = '💙';
                 el.style.left = Math.random() * 100 + '%';
                 el.style.fontSize = (Math.random() * 20 + 15) + 'px';
                 el.style.animationDuration = (Math.random() * 5 + 5) + 's';
@@ -388,7 +400,7 @@
             startScratch();
         }
 
-        // หน้า 3 Logic (ขูด 99% ค้าง 3 วินาที)
+        // หน้า 3 Logic (ขูด 99% ขึ้นปุ่มทันที)
         let scratchFinished = false;
         function startScratch() {
             if(scratchFinished) return;
@@ -411,15 +423,12 @@
                 let cleared = 0;
                 for(let i=3; i<d.length; i+=4) if(d[i]===0) cleared++;
                 
-                // ขูดถึง 99%
+                // ขูดถึง 99% แล้วแสดงผลทันที ไม่ต้องรอ 3 วิ
                 if(cleared/(280*280) >= 0.99) { 
                     scratchFinished = true;
-                    // ค้างไว้ 3 วินาทีแล้วแสดงตัวเลือก Yes/No
-                    setTimeout(() => {
-                        ctx.clearRect(0, 0, 280, 280);
-                        document.getElementById('scratchHint').innerText = "เป็นแฟนกันนะ 💙";
-                        document.getElementById('answerOptions').style.display = 'flex';
-                    }, 3000);
+                    ctx.clearRect(0, 0, 280, 280);
+                    document.getElementById('scratchHint').innerText = "เป็นแฟนกันนะ 💙";
+                    document.getElementById('answerOptions').style.display = 'flex';
                 }
             }
 
@@ -439,11 +448,26 @@
             c.addEventListener('touchmove', move);
         }
 
-        // ระบบจัดการและบันทึกคำตอบ
+        // ระบบเลือกคำตอบ Yes / No
         function selectAnswer(ans) {
             localStorage.setItem('user_proposal_answer', ans);
-            alert('ขอบคุณสำหรับคำตอบนะ! 💙 (' + ans + ')');
+            if(ans === 'Yes') {
+                alert('เค้ารักเทอที่สุดเลยนะ💙');
+            } else if(ans === 'No') {
+                alert('ลองพิจารณาคำตอบอีกทีไหม🥺');
+            }
             checkAnswer();
+        }
+
+        // การจัดการ Modal สำหรับซองจดหมายดูคำตอบ
+        function openAdminModal(e) {
+            e.stopPropagation();
+            checkAnswer();
+            document.getElementById('adminModal').style.display = 'flex';
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').style.display = 'none';
         }
 
         function checkAnswer() {
@@ -454,7 +478,7 @@
                 display.style.color = saved === 'Yes' ? '#2a52be' : '#d9534f';
             } else {
                 display.innerText = "ยังไม่มีข้อมูล";
-                display.style.color = "#555";
+                display.style.color = "#888";
             }
         }
 
@@ -464,7 +488,6 @@
             checkAnswer();
         }
 
-        // ตรวจสอบคำตอบเมื่อโหลดหน้าเว็บ
         checkAnswer();
     </script>
 </body>
