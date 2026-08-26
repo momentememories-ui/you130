@@ -322,7 +322,7 @@
     <!-- FINAL TEXT MESSAGE CONTAINER -->
     <div class="final-msg-container" id="finalMsgContainer">
         <div class="final-msg-box">
-            <h1>เป็นแฟนกับเค้านะ💝</h1>
+            <h1></h1>
             <p>เค้าดีใจมากๆนะที่ได้มาเจอเทอ<br>
             ตลอดเวลาที่เค้าคุยกับเทอ<br>
             เค้ามีความสุขมากๆ<br>
@@ -343,8 +343,8 @@
             </div>
             <div class="scratch-hint-text" id="scratchHint">ลองขูดดูสิ</div>
             <div class="answer-options" id="answerOptions" style="display: none;">
-                <button class="btn-choice btn-yes" onclick="selectAnswer('Yes')">Yes 💙</button>
-                <button class="btn-choice btn-no" onclick="selectAnswer('No')">No 🥺</button>
+                <button class="btn-choice btn-yes" onclick="selectAnswer('Yes')">Yes</button>
+                <button class="btn-choice btn-no" onclick="selectAnswer('No')">No</button>
             </div>
         </div>
     </div>
@@ -466,7 +466,7 @@
                 if(cleared/(280*280) >= 0.99) { 
                     scratchFinished = true;
                     ctx.clearRect(0, 0, 280, 280);
-                    document.getElementById('scratchHint').innerText = "เป็นแฟนกันนะ 💙";
+                    document.getElementById('scratchHint').innerText = "";
                     document.getElementById('answerOptions').style.display = 'flex';
                 }
             }
@@ -495,10 +495,10 @@
 
             if(ans === 'Yes') {
                 iconEl.innerText = '💙';
-                textEl.innerText = 'เค้ารักเทอที่สุดเลยนะ💙';
+                textEl.innerText = 'เค้ารักเทอที่สุดเลยนะ';
             } else if(ans === 'No') {
                 iconEl.innerText = '🥺';
-                textEl.innerText = 'ลองพิจารณาคำตอบอีกทีไหม🥺';
+                textEl.innerText = 'ลองพิจารณาคำตอบอีกทีไหม';
             }
 
             document.getElementById('resultModal').style.display = 'flex';
